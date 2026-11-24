@@ -1,0 +1,50 @@
+name: CI and v0.1.0 public research release
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: egpl-ci-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m unittest discover -s tests -v
+      - run: python -m egpl.cli benchmark
+      - run: python -m pip install .
+      - run: egpl validate examples/contract.json
+      - run: egpl run examples/contract.json examples/fixtures.json --steps 1 --output checkpoint.json
+      - run: egpl resume examples/contract.json examples/fixtures.json checkpoint.json
+  release:
+    needs: tests
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build wheel
+        run: python -m pip wheel --no-deps --wheel-dir dist .
+      - name: Publish research preview once
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view v0.1.0 >/dev/null 2>&1; then
+            echo "Release already exists; not modifying it."
+            exit 0
+          fi
+          gh release create v0.1.0 dist/*.whl --target "$GITHUB_SHA" --prerelease --title "EGPL Runtime v0.1.0 — Research Preview" --notes "Experimental Python runtime with bounded attempts, exact-match evidence gate, checkpoint replay, invariant-preserving strategy selection, CLI and synthetic benchmarks. CI required before publication. Fixture adapter only; no real LLM performance claims, authenticated provenance or hard token/time budgets."
