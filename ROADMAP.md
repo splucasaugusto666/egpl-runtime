@@ -4,6 +4,8 @@
 - [x] Verify v0.1 remote CI and release.
 - [ ] Audit full related-work papers and competing runtimes.
 - [x] Add typed local predicates.
+- [x] Add portable Agent Skill and optional loopback model adapter (HTTP fixture tested).
+- [x] Add composite acceptance rules and reusable CI gate.
 - [ ] Add external observations; enforce resource budgets and authenticate checkpoints where needed.
 - [ ] Implement provider adapters, test actual models on held-out tasks, ablate components and report negative results.
 - [ ] No claim of global leadership until demonstrated.

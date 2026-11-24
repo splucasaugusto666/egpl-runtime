@@ -1,0 +1,6 @@
+{
+  "objective": "Return JSON with status ok, count between 2 and 5, and labels a,b in order.",
+  "expected": "[{\"id\":\"status\",\"path\":\"/status\",\"verifier\":\"exact\",\"expected\":\"ok\"},{\"id\":\"count\",\"path\":\"/count\",\"verifier\":\"integer_range\",\"expected\":\"{\\\"min\\\":2,\\\"max\\\":5}\"},{\"id\":\"labels\",\"path\":\"/labels\",\"verifier\":\"json_equal\",\"expected\":\"[\\\"a\\\",\\\"b\\\"]\"}]",
+  "max_attempts": 3,
+  "verifier": "all"
+}

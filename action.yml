@@ -1,0 +1,22 @@
+name: EGPL Evidence Gate
+description: Verify a candidate against a trusted deterministic EGPL contract.
+branding:
+  icon: check-circle
+  color: green
+inputs:
+  contract:
+    description: Path to the trusted EGPL JSON contract.
+    required: true
+  candidate:
+    description: Path to the UTF-8 candidate file.
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Verify candidate
+      shell: bash
+      env:
+        EGPL_CONTRACT: ${{ inputs.contract }}
+        EGPL_CANDIDATE: ${{ inputs.candidate }}
+      run: |
+        python -I -c 'import sys; sys.path.insert(0, sys.argv.pop(1)); from egpl.cli import main; raise SystemExit(main())' "$GITHUB_ACTION_PATH" check "$EGPL_CONTRACT" "$EGPL_CANDIDATE"

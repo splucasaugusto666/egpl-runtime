@@ -1,4 +1,7 @@
 # Changelog
+## 0.4.0 — research preview
+Named composite JSON-pointer predicates, per-rule evidence, immutable conjunctive contracts, and reusable GitHub Action with positive and negative CI integration checks.
+
 ## 0.3.0 — research preview
 CLI check with machine-readable evidence and exit status, opt-in local Ollama adapter, portable Agent Skill and competitive landscape. No live-model evaluation yet.
 

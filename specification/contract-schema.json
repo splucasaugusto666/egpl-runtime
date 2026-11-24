@@ -34,7 +34,8 @@
         "exact",
         "json_equal",
         "integer_range",
-        "sha256"
+        "sha256",
+        "all"
       ],
       "default": "exact"
     }

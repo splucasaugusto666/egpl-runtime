@@ -3,7 +3,7 @@ from dataclasses import dataclass, asdict
 import hashlib
 import json
 from typing import Callable
-from .verifiers import validate, verify, bounded_text
+from .verifiers import validate, verify, bounded_text, evaluate_all
 
 
 def digest(value):
@@ -71,9 +71,15 @@ class FixtureAdapter:
 def evidence(contract, candidate, attempt):
     # Bind the verifier to the contract. Never execute candidate text.
     origin = 'trusted-local-exact-match-v1' if contract.verifier == 'exact' else 'trusted-local-' + contract.verifier + '-v1'
-    return {'attempt': attempt, 'origin': origin,
-            'candidate': candidate, 'candidate_sha256': digest(candidate),
-            'contract_id': contract.contract_id, 'passed': verify(contract.verifier, contract.expected, candidate)}
+    record = {'attempt': attempt, 'origin': origin,
+              'candidate': candidate, 'candidate_sha256': digest(candidate),
+              'contract_id': contract.contract_id}
+    if contract.verifier == 'all':
+        record['checks'] = evaluate_all(contract.expected, candidate)
+        record['passed'] = all(check['passed'] for check in record['checks'])
+    else:
+        record['passed'] = verify(contract.verifier, contract.expected, candidate)
+    return record
 
 
 def run(contract: Contract, propose: Callable, checkpoint=None, *, step_limit=None):
