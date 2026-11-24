@@ -1,0 +1,10 @@
+[
+  {
+    "Try a candidate and revise it using verifier feedback.": [
+      "bad"
+    ],
+    "Check the external predicate and try a different candidate.": [
+      "OK"
+    ]
+  }
+]

@@ -1,0 +1,84 @@
+{
+  "mode": "synthetic fault fixtures; no LLM calls",
+  "cases": [
+    {
+      "case": "immediate",
+      "baseline_correct": true,
+      "baseline_false_accept": false,
+      "gated_verified": true,
+      "gated_false_accept": false,
+      "gated_attempts": 1,
+      "gated_status": "verified"
+    },
+    {
+      "case": "recoverable",
+      "baseline_correct": false,
+      "baseline_false_accept": true,
+      "gated_verified": true,
+      "gated_false_accept": false,
+      "gated_attempts": 2,
+      "gated_status": "verified"
+    },
+    {
+      "case": "false_claim",
+      "baseline_correct": false,
+      "baseline_false_accept": true,
+      "gated_verified": false,
+      "gated_false_accept": false,
+      "gated_attempts": 1,
+      "gated_status": "blocked"
+    },
+    {
+      "case": "persistent_wrong",
+      "baseline_correct": false,
+      "baseline_false_accept": true,
+      "gated_verified": false,
+      "gated_false_accept": false,
+      "gated_attempts": 2,
+      "gated_status": "exhausted"
+    },
+    {
+      "case": "no_candidate",
+      "baseline_correct": false,
+      "baseline_false_accept": false,
+      "gated_verified": false,
+      "gated_false_accept": false,
+      "gated_attempts": 0,
+      "gated_status": "blocked"
+    },
+    {
+      "case": "injection_text",
+      "baseline_correct": false,
+      "baseline_false_accept": true,
+      "gated_verified": true,
+      "gated_false_accept": false,
+      "gated_attempts": 2,
+      "gated_status": "verified"
+    },
+    {
+      "case": "budget_exhaustion",
+      "baseline_correct": false,
+      "baseline_false_accept": true,
+      "gated_verified": false,
+      "gated_false_accept": false,
+      "gated_attempts": 2,
+      "gated_status": "exhausted"
+    },
+    {
+      "case": "empty_candidate",
+      "baseline_correct": false,
+      "baseline_false_accept": true,
+      "gated_verified": true,
+      "gated_false_accept": false,
+      "gated_attempts": 2,
+      "gated_status": "verified"
+    }
+  ],
+  "summary": {
+    "baseline_correct": 1,
+    "baseline_false_accept": 6,
+    "gated_verified": 4,
+    "gated_false_accept": 0,
+    "gated_attempts": 12
+  }
+}

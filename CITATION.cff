@@ -1,0 +1,6 @@
+cff-version: 1.2.0
+message: "Cite this experimental software with its version."
+title: "EGPL Runtime: Evidence-Gated Prompt Loops"
+version: 0.1.0
+authors:
+  - name: "Project Prompt Genesis"

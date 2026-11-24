@@ -1,0 +1,8 @@
+[
+  {
+    "objective": "Return the two-letter English acknowledgment used in this fixture.",
+    "expected": "OK",
+    "max_attempts": 3,
+    "strategy": "Check the external predicate and try a different candidate."
+  }
+]

@@ -1,0 +1,20 @@
+test_bad_budget (test_core.RuntimeTests.test_bad_budget) ... ok
+test_benchmark (test_core.RuntimeTests.test_benchmark) ... ok
+test_budget (test_core.RuntimeTests.test_budget) ... ok
+test_empty (test_core.RuntimeTests.test_empty) ... ok
+test_false_claim (test_core.RuntimeTests.test_false_claim) ... ok
+test_injection (test_core.RuntimeTests.test_injection) ... ok
+test_not_leak (test_core.RuntimeTests.test_not_leak) ... ok
+test_optimizer_invariants (test_core.RuntimeTests.test_optimizer_invariants) ... ok
+test_optimizer_select (test_core.RuntimeTests.test_optimizer_select) ... ok
+test_recovery (test_core.RuntimeTests.test_recovery) ... ok
+test_resume (test_core.RuntimeTests.test_resume) ... ok
+test_success (test_core.RuntimeTests.test_success) ... ok
+test_tamper (test_core.RuntimeTests.test_tamper) ... ok
+test_terminal_replay (test_core.RuntimeTests.test_terminal_replay) ... ok
+test_wrong_contract (test_core.RuntimeTests.test_wrong_contract) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.004s
+
+OK

@@ -1,0 +1,2 @@
+# Security
+Experimental software. No arbitrary candidate code is executed by the reference CLI. The host and any installed Python adapters are trusted; hostile adapters can bypass assumptions. Do not pass credentials or confidential outputs. Checkpoint hashes are content identifiers, not authenticity proofs. No sandbox, network control, hard timeout, or token budget is implemented. Report vulnerabilities privately to the repository owner. Do not submit secrets in issues.

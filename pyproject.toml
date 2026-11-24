@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "egpl-runtime"
+version = "0.1.0"
+description = "Evidence-gated prompt contracts: experimental reference runtime"
+requires-python = ">=3.10"
+dependencies = []
+license = {text = "MIT"}
+[project.scripts]
+egpl = "egpl.cli:main"
+[tool.setuptools.packages.find]
+include = ["egpl*"]
