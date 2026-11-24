@@ -1,6 +1,6 @@
 # EGPL Runtime — Project Prompt Genesis
 
-**Evidence-Gated Prompt Loops · Research preview v0.1.0**
+**Evidence-Gated Prompt Loops · Research preview v0.2.0**
 
 An experimental Python reference runtime that distinguishes a model's proposed answer from a verifier-authorized completion. No paid API, dependencies at runtime, or executable model-generated code. This is not a claim of a new scientific paradigm or a leaderboard victory.
 
@@ -28,6 +28,14 @@ python -m egpl.cli benchmark
 To install: `python -m pip install .` (may need build tooling). The installed entry point is `egpl`. `inspect` and `evaluate` replay checkpoint predicates, not external action provenance. `optimize CONTRACT CANDIDATES DEV_CASES` selects a strategy from user-provided fixture outcomes, with invariant checks; see `examples/`.
 
 The first fixture claims success but fails the exact-match predicate; the second candidate passes. `verified` refers **only** to that predicate, not general correctness or proof of real-world execution.
+
+## Typed evidence gates
+
+Choose exact text, canonical JSON equality, an inclusive integer range or SHA-256 content matching. See [typed verifiers](docs/typed-verifiers.md) for constraints and examples. Verifier configuration is part of the immutable contract.
+
+```bash
+egpl run examples/typed-contract.json examples/typed-fixtures.json
+```
 
 ## Initial experiment
 

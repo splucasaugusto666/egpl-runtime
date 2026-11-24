@@ -11,3 +11,6 @@ The outer loop compares strategies on development fixtures, maximizing verified 
 ## Prompt-only mode (advisory)
 
 State the goal and invariants, propose a candidate, request external evidence, compare it with the acceptance predicate, retry within the budget. Report VERIFIED only after the host returns a valid result. A chat prompt cannot enforce this protocol by itself.
+
+## v0.2 extension
+The optional immutable verifier field selects a trusted deterministic predicate. See [typed verifier definitions](../docs/typed-verifiers.md). Replace the exact equality condition above with V_kind(expected,x). The exact-match v0.1 origin and identifiers remain stable for inputs within the new text limit. The verified implication now applies to the selected predicate, not arbitrary task correctness.

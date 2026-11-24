@@ -1,1 +1,42 @@
-{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["objective","expected","max_attempts"],"properties":{"objective":{"type":"string","pattern":"\\S"},"expected":{"type":"string","minLength":1},"max_attempts":{"type":"integer","minimum":1,"maximum":100},"strategy":{"type":"string","pattern":"\\S"}}}
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "objective",
+    "expected",
+    "max_attempts"
+  ],
+  "properties": {
+    "objective": {
+      "type": "string",
+      "pattern": "\\S",
+      "maxLength": 65536
+    },
+    "expected": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 65536
+    },
+    "max_attempts": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "strategy": {
+      "type": "string",
+      "pattern": "\\S",
+      "maxLength": 65536
+    },
+    "verifier": {
+      "type": "string",
+      "enum": [
+        "exact",
+        "json_equal",
+        "integer_range",
+        "sha256"
+      ],
+      "default": "exact"
+    }
+  }
+}
