@@ -1,0 +1,3 @@
+# Agent integration design
+
+Goal: give any shell-capable agent a deterministic acceptance gate, with optional local-model generation. Alternative broad skill catalog and full harness were rejected in favor of a composable CLI. Preserve v0.2 IDs and predicates. Local-only HTTP, explicit model, finite input/response bounds, no automatic cloud calls. Exit codes are 0/1/2. A portable skill communicates trust boundaries. No claim of hard wall-time limits or tested commercial-host support. User requested autonomous implementation; scope chosen by implementer. Independent review unavailable.

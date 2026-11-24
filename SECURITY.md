@@ -1,2 +1,4 @@
 # Security
 Experimental software. No arbitrary candidate code is executed by the reference CLI. The host and any installed Python adapters are trusted; hostile adapters can bypass assumptions. Do not pass credentials or confidential outputs. Checkpoint hashes are content identifiers, not authenticity proofs. No sandbox, network control, hard timeout, or token budget is implemented. Report vulnerabilities privately to the repository owner. Do not submit secrets in issues.
+
+The optional Ollama adapter connects to a user-selected port on 127.0.0.1 only. The local server is trusted and may have its own network behavior; do not send secrets. No redirect or proxy handling. Response reads and requested generation length are bounded, socket timeout is not a total deadline. CLI check does not execute candidate data or print candidate text. Repeated standalone checks are not cumulatively budgeted.

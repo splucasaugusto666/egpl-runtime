@@ -1,0 +1,3 @@
+# Agent interoperability implementation plan
+
+Goal: make EGPL useful from existing coding agents without requiring them to adopt an entire runtime. Choose a narrow CLI gate and optional local Ollama adapter instead of a new multi-agent framework. Preserve v0.2 contracts. First write tests for shell exit status, local HTTP retry, configuration and transport failure. Observe failing CI, then implement and run full CI. Add installable-format Agent Skill and documentation with explicit trust boundaries. Release only after CI. No live-model performance claim or paid API. Execute sequentially; no independent reviewer infrastructure.

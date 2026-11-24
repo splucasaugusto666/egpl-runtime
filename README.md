@@ -1,6 +1,6 @@
 # EGPL Runtime — Project Prompt Genesis
 
-**Evidence-Gated Prompt Loops · Research preview v0.2.0**
+**Evidence-Gated Prompt Loops · Research preview v0.3.0**
 
 An experimental Python reference runtime that distinguishes a model's proposed answer from a verifier-authorized completion. No paid API, dependencies at runtime, or executable model-generated code. This is not a claim of a new scientific paradigm or a leaderboard victory.
 
@@ -37,12 +37,22 @@ Choose exact text, canonical JSON equality, an inclusive integer range or SHA-25
 egpl run examples/typed-contract.json examples/typed-fixtures.json
 ```
 
+## Use with your existing AI agent
+
+**Don't trust "done". Check it.**
+
+```bash
+egpl check examples/agent-contract.json examples/agent-candidate.txt
+```
+
+Exit 0 means the predicate passed; 1 means it failed; 2 means invalid input or unavailable resources. Import the portable [verification skill](skills/egpl-verify/SKILL.md) into a supported agent host, or call the CLI directly from CI. Optional [local Ollama adapter](docs/agent-integration.md) lets a user-selected local model propose candidates. No cloud credentials required for the local workflow.
+
 ## Initial experiment
 
 See [results](benchmarks/results.json), [test log](benchmarks/test-log.txt), [specification](specification/protocol.md), and [research proposal](research/research-preview.md). The eight handcrafted fault cases compare a one-shot acceptance rule against gated retries. This is a mechanism demonstration, not a fair LLM performance comparison. The exact-match verifier knows the expected answer and the baseline does not; retries also cost extra attempts.
 
 ## Scope and safety
 
-Fixture adapter only; no network, LLM provider integration, general-purpose tools, cryptographic provenance, sandbox, or independent reviewer. Do not use with secrets. A caller-provided adapter is trusted executable Python and must be reviewed. The runtime does not constrain adapter wall time or token expenditure. Hashes identify content, not authorship or authenticity. A checkpoint can be forged by someone who knows a valid candidate; replay validates the predicate, not history. See [SECURITY.md](SECURITY.md).
+Fixture adapter and optional loopback Ollama HTTP adapter (protocol tested against a fake local server, no actual model evaluation). No general-purpose tools, cryptographic provenance, sandbox, or independent reviewer. Do not use with secrets. A caller-provided adapter is trusted executable Python and must be reviewed. The runtime does not constrain adapter wall time or token expenditure. Hashes identify content, not authorship or authenticity. A checkpoint can be forged by someone who knows a valid candidate; replay validates the predicate, not history. See [SECURITY.md](SECURITY.md).
 
 License: MIT. Contributions and negative results welcome.
