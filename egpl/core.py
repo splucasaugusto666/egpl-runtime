@@ -3,6 +3,7 @@ from dataclasses import dataclass, asdict
 import hashlib
 import json
 from typing import Callable
+from .verifiers import validate, verify, bounded_text
 
 
 def digest(value):
@@ -16,6 +17,8 @@ class Contract:
     max_attempts: int
     strategy: str = 'Try a candidate and revise it using verifier feedback.'
 
+    verifier: str = 'exact'
+
     def __post_init__(self):
         if not isinstance(self.objective, str) or not self.objective.strip():
             raise ValueError('objective must be nonempty text')
@@ -25,14 +28,24 @@ class Contract:
             raise ValueError('max_attempts must be an integer from 1 to 100')
         if not isinstance(self.strategy, str) or not self.strategy.strip():
             raise ValueError('strategy must be nonempty text')
+        bounded_text(self.objective)
+        bounded_text(self.strategy)
+        validate(self.verifier, self.expected)
+
+    def _identity_fields(self):
+        fields = asdict(self)
+        # Preserve v0.1 exact-match contract identifiers and replay compatibility.
+        if self.verifier == 'exact':
+            fields.pop('verifier')
+        return fields
 
     @property
     def invariant_id(self):
-        return digest({k: v for k, v in asdict(self).items() if k != 'strategy'})
+        return digest({k: v for k, v in self._identity_fields().items() if k != 'strategy'})
 
     @property
     def contract_id(self):
-        return digest(asdict(self))
+        return digest(self._identity_fields())
 
 
 def compile_prompt(contract):
@@ -56,10 +69,11 @@ class FixtureAdapter:
 
 
 def evidence(contract, candidate, attempt):
-    # Exact equality is intentionally narrow. Never execute candidate text.
-    return {'attempt': attempt, 'origin': 'trusted-local-exact-match-v1',
+    # Bind the verifier to the contract. Never execute candidate text.
+    origin = 'trusted-local-exact-match-v1' if contract.verifier == 'exact' else 'trusted-local-' + contract.verifier + '-v1'
+    return {'attempt': attempt, 'origin': origin,
             'candidate': candidate, 'candidate_sha256': digest(candidate),
-            'contract_id': contract.contract_id, 'passed': candidate == contract.expected}
+            'contract_id': contract.contract_id, 'passed': verify(contract.verifier, contract.expected, candidate)}
 
 
 def run(contract: Contract, propose: Callable, checkpoint=None, *, step_limit=None):
@@ -67,14 +81,15 @@ def run(contract: Contract, propose: Callable, checkpoint=None, *, step_limit=No
         raise ValueError('invalid step limit')
     trace = []
     if checkpoint is not None:
-        if checkpoint.get('contract_id') != contract.contract_id or not isinstance(checkpoint.get('trace'), list):
+        if not isinstance(checkpoint, dict) or checkpoint.get('contract_id') != contract.contract_id or not isinstance(checkpoint.get('trace'), list):
             raise ValueError('checkpoint contract mismatch or malformed trace')
         for i, entry in enumerate(checkpoint['trace']):
             if i >= contract.max_attempts or not isinstance(entry, dict) or not isinstance(entry.get('candidate'), str):
                 raise ValueError('invalid checkpoint entry')
             if trace and trace[-1]['passed']:
                 raise ValueError('trace continues after success')
-            if entry != evidence(contract, entry['candidate'], i):
+            bounded_text(entry['candidate'])
+            if digest(entry) != digest(evidence(contract, entry['candidate'], i)):
                 raise ValueError('checkpoint evidence does not reproduce')
             trace.append(entry)
     def result(status):
@@ -89,7 +104,9 @@ def run(contract: Contract, propose: Callable, checkpoint=None, *, step_limit=No
             candidate = propose(compile_prompt(contract), 'Previous candidate failed.' if trace else '', len(trace))
         except StopIteration:
             return result('blocked')
-        if not isinstance(candidate, str):
+        try:
+            bounded_text(candidate)
+        except ValueError:
             return result('blocked')
         trace.append(evidence(contract, candidate, len(trace)))
         if trace[-1]['passed']:

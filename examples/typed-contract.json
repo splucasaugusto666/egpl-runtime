@@ -1,0 +1,6 @@
+{
+  "objective": "Produce a JSON object with the fixture fields.",
+  "expected": "{\"answer\":42,\"status\":\"ok\"}",
+  "max_attempts": 3,
+  "verifier": "json_equal"
+}

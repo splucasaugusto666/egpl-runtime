@@ -1,4 +1,4 @@
-name: CI and v0.1.0 public research release
+name: CI and public research release
 on:
   push:
     branches: [main]
@@ -26,6 +26,7 @@ jobs:
       - run: egpl validate examples/contract.json
       - run: egpl run examples/contract.json examples/fixtures.json --steps 1 --output checkpoint.json
       - run: egpl resume examples/contract.json examples/fixtures.json checkpoint.json
+      - run: egpl run examples/typed-contract.json examples/typed-fixtures.json
   release:
     needs: tests
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
@@ -43,8 +44,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view v0.1.0 >/dev/null 2>&1; then
+          TAG=$(python -c 'import tomllib; print("v" + tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')
+          if gh release view "$TAG" >/dev/null 2>&1; then
             echo "Release already exists; not modifying it."
             exit 0
           fi
-          gh release create v0.1.0 dist/*.whl --target "$GITHUB_SHA" --prerelease --title "EGPL Runtime v0.1.0 — Research Preview" --notes "Experimental Python runtime with bounded attempts, exact-match evidence gate, checkpoint replay, invariant-preserving strategy selection, CLI and synthetic benchmarks. CI required before publication. Fixture adapter only; no real LLM performance claims, authenticated provenance or hard token/time budgets."
+          gh release create "$TAG" dist/*.whl --target "$GITHUB_SHA" --prerelease --title "EGPL Runtime $TAG — Research Preview" --notes "Experimental Python runtime with bounded attempts, typed deterministic evidence gates, checkpoint replay, invariant-preserving strategy selection, CLI and synthetic benchmarks. CI required before publication. Fixture adapter only; no real LLM performance claims, authenticated provenance or hard token/time budgets."
