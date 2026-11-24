@@ -27,6 +27,7 @@ jobs:
       - run: egpl run examples/contract.json examples/fixtures.json --steps 1 --output checkpoint.json
       - run: egpl resume examples/contract.json examples/fixtures.json checkpoint.json
       - run: egpl run examples/typed-contract.json examples/typed-fixtures.json
+      - run: egpl check examples/agent-contract.json examples/agent-candidate.txt
   release:
     needs: tests
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
@@ -49,4 +50,4 @@ jobs:
             echo "Release already exists; not modifying it."
             exit 0
           fi
-          gh release create "$TAG" dist/*.whl --target "$GITHUB_SHA" --prerelease --title "EGPL Runtime $TAG — Research Preview" --notes "Experimental Python runtime with bounded attempts, typed deterministic evidence gates, checkpoint replay, invariant-preserving strategy selection, CLI and synthetic benchmarks. CI required before publication. Fixture adapter only; no real LLM performance claims, authenticated provenance or hard token/time budgets."
+          gh release create "$TAG" dist/*.whl --target "$GITHUB_SHA" --prerelease --title "EGPL Runtime $TAG — Research Preview" --notes "Experimental Python runtime with bounded attempts, typed deterministic evidence gates, checkpoint replay, invariant-preserving strategy selection, CLI and synthetic benchmarks. CI required before publication. Fixture and optional loopback Ollama adapter, portable Agent Skill and CLI gate; no live-model evaluation; no real LLM performance claims, authenticated provenance or hard token/time budgets."

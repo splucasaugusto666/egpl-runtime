@@ -1,0 +1,5 @@
+{
+  "objective": "Return the exact two-letter acknowledgment OK, without quotes or newline.",
+  "expected": "OK",
+  "max_attempts": 3
+}
