@@ -1,6 +1,6 @@
 # EGPL Runtime — Project Prompt Genesis
 
-**Evidence-Gated Prompt Loops · Research preview v0.3.0**
+**Evidence-Gated Prompt Loops · Research preview v0.4.0**
 
 An experimental Python reference runtime that distinguishes a model's proposed answer from a verifier-authorized completion. No paid API, dependencies at runtime, or executable model-generated code. This is not a claim of a new scientific paradigm or a leaderboard victory.
 
@@ -36,6 +36,25 @@ Choose exact text, canonical JSON equality, an inclusive integer range or SHA-25
 ```bash
 egpl run examples/typed-contract.json examples/typed-fixtures.json
 ```
+
+## Multi-criterion evidence gates
+
+Require several independent checks on a structured candidate, with per-rule pass/fail evidence and immutable acceptance criteria. Use JSON pointers to target fields. See [composite gates](docs/composite-gates.md).
+
+```bash
+egpl check examples/composite-contract.json examples/composite-candidate.json
+```
+
+Integrate EGPL directly in GitHub Actions:
+
+```yaml
+- uses: splucasaugusto666/egpl-runtime@v0.4.0
+  with:
+    contract: path/to/trusted-contract.json
+    candidate: path/to/candidate.json
+```
+
+Requires Python 3.10+ and a trusted workflow/contract; pin a reviewed commit SHA for sensitive workflows.
 
 ## Use with your existing AI agent
 

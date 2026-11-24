@@ -14,3 +14,6 @@ State the goal and invariants, propose a candidate, request external evidence, c
 
 ## v0.2 extension
 The optional immutable verifier field selects a trusted deterministic predicate. See [typed verifier definitions](../docs/typed-verifiers.md). Replace the exact equality condition above with V_kind(expected,x). The exact-match v0.1 origin and identifiers remain stable for inputs within the new text limit. The verified implication now applies to the selected predicate, not arbitrary task correctness.
+
+## v0.4 extension
+Composite gate V_all(C,x) is the conjunction of named primitive predicates evaluated on JSON pointer-selected values. Malformed candidate JSON fails every rule; missing or wrong-typed fields fail their individual rule. Evidence includes the ordered vector of rule IDs and booleans, with VERIFIED iff every boolean is true. Rule definitions are immutable under optimization and replay recomputes the vector. See [composite gates](../docs/composite-gates.md) for exact semantics.
