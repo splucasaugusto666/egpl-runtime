@@ -1,4 +1,7 @@
 # Changelog
+## 0.5.0 — research preview
+Reproducible behavioral trials, paired scoring with missingness, manual chat bridge, optional local model study collection, five request/response codecs and research methodology.
+
 ## 0.4.0 — research preview
 Named composite JSON-pointer predicates, per-rule evidence, immutable conjunctive contracts, and reusable GitHub Action with positive and negative CI integration checks.
 

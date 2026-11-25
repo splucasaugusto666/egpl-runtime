@@ -1,8 +1,8 @@
 # EGPL Runtime — Project Prompt Genesis
 
-**Evidence-Gated Prompt Loops · Research preview v0.4.0**
+**Evidence-Gated Prompt Loops · Research preview v0.5.0**
 
-An experimental Python reference runtime that distinguishes a model's proposed answer from a verifier-authorized completion. No paid API, dependencies at runtime, or executable model-generated code. This is not a claim of a new scientific paradigm or a leaderboard victory.
+An experimental Python reference runtime that distinguishes a model's proposed answer from a verifier-authorized completion. No mandatory paid API, runtime dependencies, or executable model-generated code. This is not a claim of a new scientific paradigm or a leaderboard victory.
 
 ```text
 Contract -> compile -> candidate -> trusted predicate -> evidence
@@ -65,6 +65,17 @@ egpl check examples/agent-contract.json examples/agent-candidate.txt
 ```
 
 Exit 0 means the predicate passed; 1 means it failed; 2 means invalid input or unavailable resources. Import the portable [verification skill](skills/egpl-verify/SKILL.md) into a supported agent host, or call the CLI directly from CI. Optional [local Ollama adapter](docs/agent-integration.md) lets a user-selected local model propose candidates. No cloud credentials required for the local workflow.
+
+## Behavioral Intelligence Research
+
+Study the model, not just the prompt. Compare matched interventions under controlled conditions and keep expected answers separate from exported trials.
+
+```bash
+egpl study-prepare examples/behavior-study.json --repeats 2 --seed 17 > trials.json
+egpl study-score examples/behavior-study.json trials.json responses.json --model YOUR_MODEL --mode manual
+```
+
+Any text-capable chat can participate manually. Five programmatic wire codecs cover OpenAI Chat Completions, compatible Chat Completions, Anthropic Messages, Gemini generateContent and Ollama generate, using caller-owned transport. The optional local Ollama workflow is also available. See [behavioral lab](docs/behavior-lab.md). Protocol fixtures are not live provider compatibility or evidence of model cognition.
 
 ## Initial experiment
 
