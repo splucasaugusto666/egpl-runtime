@@ -35,8 +35,46 @@ def main():
     model.add_argument('--port', type=int, default=11434)
     model.add_argument('--timeout', type=float, default=30)
     model.add_argument('--max-tokens', type=int, default=256)
+    study = sub.add_parser('study-prepare', help='export randomized evaluation trials')
+    study.add_argument('study')
+    study.add_argument('--repeats', type=int, default=1)
+    study.add_argument('--seed', type=int, default=0)
+    evaluate = sub.add_parser('study-score', help='score manual or recorded final responses')
+    evaluate.add_argument('study')
+    evaluate.add_argument('manifest')
+    evaluate.add_argument('responses')
+    evaluate.add_argument('--model', required=True)
+    evaluate.add_argument('--mode', choices=['manual','fixture','caller-transport','ollama'], required=True)
+    collect = sub.add_parser('study-ollama', help='explicitly collect local model responses')
+    collect.add_argument('study')
+    collect.add_argument('manifest')
+    collect.add_argument('--model', required=True)
+    collect.add_argument('--port', type=int, default=11434)
+    collect.add_argument('--timeout', type=float, default=30)
+    collect.add_argument('--max-tokens', type=int, default=256)
     sub.add_parser('benchmark')
     a = p.parse_args()
+    if a.command in ('study-prepare','study-score','study-ollama'):
+        from .behavior import prepare, score, collect
+        try:
+            study = load(a.study)
+            if a.command == 'study-prepare':
+                result = prepare(study, repeats=a.repeats, seed=a.seed)
+            else:
+                manifest = load(a.manifest)
+                if a.command == 'study-score':
+                    result = score(study,manifest,load(a.responses),model=a.model,mode=a.mode)
+                else:
+                    from .adapters import OllamaAdapter
+                    # Validate the entire manifest before any model request.
+                    score(study,manifest,{},model=a.model,mode='ollama')
+                    outputs = collect(manifest,OllamaAdapter(a.model,port=a.port,timeout=a.timeout,max_tokens=a.max_tokens))
+                    result = {'responses':outputs,'profile':score(study,manifest,outputs,model=a.model,mode='ollama')}
+            print(json.dumps(result,indent=2,ensure_ascii=False))
+            return 0
+        except (OSError,ValueError,TypeError,RecursionError,KeyError) as exc:
+            print('Invalid study input: '+type(exc).__name__,file=sys.stderr)
+            return 2
     if a.command in ('check', 'run-ollama'):
         try:
             c = Contract(**load(a.contract))

@@ -7,5 +7,6 @@
 - [x] Add portable Agent Skill and optional loopback model adapter (HTTP fixture tested).
 - [x] Add composite acceptance rules and reusable CI gate.
 - [ ] Add external observations; enforce resource budgets and authenticate checkpoints where needed.
-- [ ] Implement provider adapters, test actual models on held-out tasks, ablate components and report negative results.
+- [x] Implement manual behavioral study bridge and five provider wire codecs with fixture tests.
+- [ ] Run live provider tests, held-out behavioral studies, profile-guided adaptation and matched-budget ablations; report negative results.
 - [ ] No claim of global leadership until demonstrated.
