@@ -1,6 +1,6 @@
 # EGPL Runtime — Project Prompt Genesis
 
-**Evidence-Gated Prompt Loops · Research preview v0.5.0**
+**Evidence-Gated Prompt Loops · Research preview v0.6.0**
 
 An experimental Python reference runtime that distinguishes a model's proposed answer from a verifier-authorized completion. No mandatory paid API, runtime dependencies, or executable model-generated code. This is not a claim of a new scientific paradigm or a leaderboard victory.
 
@@ -76,6 +76,18 @@ egpl study-score examples/behavior-study.json trials.json responses.json --model
 ```
 
 Any text-capable chat can participate manually. Five programmatic wire codecs cover OpenAI Chat Completions, compatible Chat Completions, Anthropic Messages, Gemini generateContent and Ollama generate, using caller-owned transport. The optional local Ollama workflow is also available. See [behavioral lab](docs/behavior-lab.md). Protocol fixtures are not live provider compatibility or evidence of model cognition.
+
+## Model-Adaptive Interaction Engineering
+
+A conservative selector chooses an intervention from complete paired development observations; a separate held-out evaluation tests whether that selection transfers across tasks or models. The demonstration intentionally reverses the development gain on target fixtures.
+
+```bash
+egpl prompt-list
+egpl prompt-render research examples/prompt-task.json
+python examples/adaptive-demo.py
+```
+
+[Six base prompts](prompts/README.md) · [Adaptive research method](docs/model-adaptive-interaction.md). These are exploratory methods, not proven model improvements. Live model and mechanistic experiments remain future work.
 
 ## Initial experiment
 

@@ -31,6 +31,8 @@ jobs:
       - run: egpl run examples/composite-contract.json examples/composite-fixtures.json
       - run: egpl study-prepare examples/behavior-study.json --repeats 2 --seed 17 > trials.json
       - run: echo '{}' > responses.json && egpl study-score examples/behavior-study.json trials.json responses.json --model fixture --mode fixture
+      - run: egpl prompt-list && egpl prompt-render research examples/prompt-task.json
+      - run: python examples/adaptive-demo.py
       - name: Composite action accepts valid candidate
         uses: ./
         with:
@@ -68,4 +70,4 @@ jobs:
             echo "Release already exists; not modifying it."
             exit 0
           fi
-          gh release create "$TAG" dist/*.whl --target "$GITHUB_SHA" --prerelease --title "EGPL Runtime $TAG — Research Preview" --notes "Experimental Python runtime with bounded attempts, typed deterministic evidence gates, checkpoint replay, invariant-preserving strategy selection, CLI and synthetic benchmarks. CI required before publication. Fixture and optional loopback Ollama adapter, portable Agent Skill, composite named predicates and reusable GitHub Action, behavioral research lab and five provider wire codecs; no live-model evaluation; no real LLM performance claims, authenticated provenance or hard token/time budgets."
+          gh release create "$TAG" dist/*.whl --target "$GITHUB_SHA" --prerelease --title "EGPL Runtime $TAG — Research Preview" --notes "Experimental Python runtime with bounded attempts, typed deterministic evidence gates, checkpoint replay, invariant-preserving strategy selection, CLI and synthetic benchmarks. CI required before publication. Fixture and optional loopback Ollama adapter, portable Agent Skill, composite named predicates and reusable GitHub Action, behavioral research lab and five provider wire codecs, paired adaptation, held-out transfer and six portable prompts; no live-model evaluation; no real LLM performance claims, authenticated provenance or hard token/time budgets."
