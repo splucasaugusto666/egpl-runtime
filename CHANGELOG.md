@@ -1,4 +1,7 @@
 # Changelog
+## 0.6.0 — research preview
+Conservative paired strategy selection, held-out and cross-model transfer evaluation, six portable base prompts, CLI and synthetic negative-transfer demonstration.
+
 ## 0.5.0 — research preview
 Reproducible behavioral trials, paired scoring with missingness, manual chat bridge, optional local model study collection, five request/response codecs and research methodology.
 

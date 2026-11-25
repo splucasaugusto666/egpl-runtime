@@ -8,5 +8,7 @@
 - [x] Add composite acceptance rules and reusable CI gate.
 - [ ] Add external observations; enforce resource budgets and authenticate checkpoints where needed.
 - [x] Implement manual behavioral study bridge and five provider wire codecs with fixture tests.
-- [ ] Run live provider tests, held-out behavioral studies, profile-guided adaptation and matched-budget ablations; report negative results.
+- [x] Add exploratory paired strategy selection, held-out transfer evaluation and six portable base prompts.
+- [ ] Run live provider tests, held-out behavioral studies and matched-budget ablations; report negative results.
+- [ ] Collect real token/latency measurements and investigate authorized open-weight model activations.
 - [ ] No claim of global leadership until demonstrated.

@@ -1,0 +1,9 @@
+{
+  "objective": "Investigate whether structured prompts improve exact JSON responses on held-out tasks.",
+  "constraints": [
+    "Use no paid APIs",
+    "Do not invent results",
+    "Keep acceptance criteria fixed"
+  ],
+  "context": "Development observations are not yet available."
+}

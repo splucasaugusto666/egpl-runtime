@@ -52,8 +52,45 @@ def main():
     collect.add_argument('--port', type=int, default=11434)
     collect.add_argument('--timeout', type=float, default=30)
     collect.add_argument('--max-tokens', type=int, default=256)
+    sub.add_parser('prompt-list', help='list portable base prompts')
+    prompt = sub.add_parser('prompt-render', help='render a base prompt from JSON inputs')
+    prompt.add_argument('name')
+    prompt.add_argument('task')
+    adapt = sub.add_parser('study-select', help='select strategy from development observations')
+    adapt.add_argument('study')
+    adapt.add_argument('manifest')
+    adapt.add_argument('responses')
+    adapt.add_argument('--model',required=True)
+    adapt.add_argument('--mode',choices=['manual','fixture','caller-transport','ollama'],required=True)
+    adapt.add_argument('--dimension',required=True)
+    transfer = sub.add_parser('study-transfer', help='evaluate frozen strategy on disjoint target data')
+    for field in ('study','manifest','responses','test_study','test_manifest','test_responses'):
+        transfer.add_argument(field)
+    transfer.add_argument('--model',required=True)
+    transfer.add_argument('--mode',choices=['manual','fixture','caller-transport','ollama'],required=True)
+    transfer.add_argument('--dimension',required=True)
+    transfer.add_argument('--target-model')
+    transfer.add_argument('--target-mode',choices=['manual','fixture','caller-transport','ollama'])
     sub.add_parser('benchmark')
     a = p.parse_args()
+    if a.command in ('prompt-list','prompt-render','study-select','study-transfer'):
+        try:
+            from .prompts import render, list_prompts
+            from .adaptive import select_strategy, evaluate_transfer
+            if a.command == 'prompt-list':
+                result = list_prompts()
+            elif a.command == 'prompt-render':
+                print(render(a.name,**load(a.task)))
+                return 0
+            elif a.command == 'study-select':
+                result = select_strategy(load(a.study),load(a.manifest),load(a.responses),model=a.model,mode=a.mode,dimension=a.dimension)
+            else:
+                result = evaluate_transfer(load(a.study),load(a.manifest),load(a.responses),load(a.test_study),load(a.test_manifest),load(a.test_responses),model=a.model,mode=a.mode,dimension=a.dimension,target_model=a.target_model,target_mode=a.target_mode)
+            print(json.dumps(result,indent=2,ensure_ascii=False))
+            return 0
+        except (OSError,ValueError,TypeError,RecursionError,KeyError) as exc:
+            print('Invalid prompt or study input: '+type(exc).__name__,file=sys.stderr)
+            return 2
     if a.command in ('study-prepare','study-score','study-ollama'):
         from .behavior import prepare, score, collect
         try:
